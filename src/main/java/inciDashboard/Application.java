@@ -1,4 +1,4 @@
-package hello;
+package inciDashboard;
 
 
 import org.springframework.boot.SpringApplication;

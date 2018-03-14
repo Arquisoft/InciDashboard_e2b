@@ -1,4 +1,4 @@
-package hello;
+package inciDashboard.controllers;
 
 
 import org.apache.log4j.Logger;

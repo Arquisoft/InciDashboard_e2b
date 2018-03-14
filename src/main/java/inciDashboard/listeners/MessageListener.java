@@ -1,9 +1,10 @@
-package hello.listeners;
+package inciDashboard.listeners;
 
-import hello.MainController;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+
+import inciDashboard.controllers.MainController;
 
 import javax.annotation.ManagedBean;
 
