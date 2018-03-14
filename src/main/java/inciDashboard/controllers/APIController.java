@@ -4,14 +4,14 @@ package inciDashboard.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import inciDashboard.entities.UserInfo;
+import inciDashboard.entities.User;
 
 @RestController
 public class APIController {
 
     @RequestMapping("/user")
-    public UserInfo user() {
-        return new UserInfo("pepe",0);
+    public User user() {
+        return new User("Pepe", "pepe@example.com", "12345");
     }
 
 }
