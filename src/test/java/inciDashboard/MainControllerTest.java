@@ -1,4 +1,4 @@
-package hello;
+package inciDashboard;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
@@ -49,7 +49,7 @@ public class MainControllerTest {
 	public void getUser() throws Exception {
 		String userURI = base.toString() + "/user";  
 		ResponseEntity<String> response = template.getForEntity(userURI, String.class);
-		User expected = new User("pepe",0);
+		User expected = new User("Pepe", "pepe@example.com", "123456");
 	}
 
 }

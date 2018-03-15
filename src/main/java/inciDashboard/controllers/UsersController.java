@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import inciDashboard.entities.User;
 
 @RestController
-public class APIController {
+public class UsersController {
 
     @RequestMapping("/user")
     public User user() {
