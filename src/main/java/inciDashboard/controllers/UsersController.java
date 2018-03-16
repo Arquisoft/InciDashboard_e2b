@@ -11,7 +11,7 @@ public class UsersController {
 
     @RequestMapping("/user")
     public User user() {
-        return new User("Pepe", "pepe@example.com", "12345");
+        return new User("Pepe", "pepe@example.com");
     }
 
 }
