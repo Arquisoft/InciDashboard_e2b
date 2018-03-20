@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<div class="container">
+		<p th:text="Incidencias"></p>
+		<div class="table-responsive">
+			<table class="table table-hover" th:fragment="tableListIcidencias" id="tableListIndicdencias">
+				<thead>
+					<tr>
+						<th th:text="Fecha"></th>
+						<th th:text="Titulo"></th>
+						<th th:text="Descripcion"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="inci : ${incidenciasList}">
+						<td th:text="${inci.fecha}"></td>
+						<td th:text="${inci.titulo}"></td>
+						<td th:text="${inci.descripcion}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<hr />
+		</div>
+		</div>
+	</body>
+</html>

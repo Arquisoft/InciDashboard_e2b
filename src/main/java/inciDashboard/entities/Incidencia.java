@@ -1,6 +1,6 @@
 package inciDashboard.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,9 +21,10 @@ public class Incidencia {
 	public Incidencia() {
 	}
 
-	public Incidencia(Date fecha, String descripcion) {
+	public Incidencia(String titulo, String descripcion) {
 		super();
-		this.fecha = fecha;
+		this.fecha = new Date();
+		this.titulo = titulo;
 		this.descripcion = descripcion;
 	}
 
