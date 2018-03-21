@@ -2,27 +2,38 @@
 <html lang="en">
 <head th:replace="fragments/head" />
 <body>
+	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<p th:text="Incidencias"></p>
+		<h1 th:text="Incidencias"></h1>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableListIcidencias" id="tableListIndicdencias">
+			<table class="table table-hover" th:fragment="tableListIcidencias"
+				id="tableListIndicdencias">
 				<thead>
 					<tr>
-						<th th:text="Fecha"></th>
-						<th th:text="Titulo"></th>
+						<th th:text="Usuario"></th>
+						<th th:text="Nombre"></th>
 						<th th:text="Descripcion"></th>
+						<th th:text="Coordenadas"></th>
+						<th th:text="Estado"></th>
+						<th th:text="Comentarios"></th>
+						<th th:text="Caducidad"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="inci : ${incidenciasList}">
-						<td th:text="${inci.fecha}"></td>
-						<td th:text="${inci.titulo}"></td>
+						<td th:text="${inci.nombreUsuario}"></td>
+						<td th:text="${inci.nombre}"></td>
 						<td th:text="${inci.descripcion}"></td>
+						<td
+							th:text="${inci.coordenadas.latitud} + ', ' + ${inci.coordenadas.longitud}"></td>
+						<td th:text="${inci.estado}"></td>
+						<td th:text="${inci.comentario}"></td>
+						<td th:text="${inci.caducidad}"></td>
 					</tr>
 				</tbody>
 			</table>
 			<hr />
 		</div>
-		</div>
-	</body>
+	</div>
+</body>
 </html>

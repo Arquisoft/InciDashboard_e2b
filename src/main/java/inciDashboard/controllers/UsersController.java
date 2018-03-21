@@ -10,22 +10,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import inciDashboard.entities.User;
 import inciDashboard.services.IncidenciasService;
+import inciDashboard.services.UsersService;
 
 @Controller
 public class UsersController {
-	
-	@Autowired
-	private IncidenciasService incidenciasService;
-	
-	@RequestMapping("/user")
-	@ResponseBody
-	public User user() {
-		return new User("Pepe", "pepe@example.com");
-	}
 
-	@RequestMapping("/user/listIncidencias")
-	public String getListado(Model model, Principal principal) {
-		model.addAttribute("incidenciasList", incidenciasService.getIncidencias());
-		return "user/listIncidencias";
-	}
+    @Autowired
+    private IncidenciasService incidenciasService;
+
+    @Autowired
+    private UsersService usersService;
+
+    @RequestMapping("/user")
+    @ResponseBody
+    public User user() {
+	return new User("Pepe", "pepe@example.com");
+    }
+
+    @RequestMapping("/user/listIncidencias")
+    public String getListado(Model model, Principal principal) {
+	model.addAttribute("incidenciasList",
+		incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName())));
+	return "user/listIncidencias";
+    }
 }
