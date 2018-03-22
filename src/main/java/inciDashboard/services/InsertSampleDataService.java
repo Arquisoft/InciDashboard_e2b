@@ -30,8 +30,8 @@ public class InsertSampleDataService {
 	usersService.addUser(user1);
 	usersService.addUser(user2);
 
-	Coordenadas coord1 = new Coordenadas("43.3616142", "-5.8506767");
-	Coordenadas coord2 = new Coordenadas("43.3579649", "-5.8733862");
+	Coordenadas coord1 = new Coordenadas(43.3616142, -5.8506767);
+	Coordenadas coord2 = new Coordenadas(43.3579649, -5.8733862);
 	coordenadasService.addCoordenadas(coord1);
 	coordenadasService.addCoordenadas(coord2);
 	

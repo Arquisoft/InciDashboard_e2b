@@ -11,8 +11,8 @@ public class Coordenadas {
     @Id
     @GeneratedValue
     private Long id;
-    private String latitud;
-    private String longitud;
+    private double latitud;
+    private double longitud;
 
     @OneToOne(mappedBy = "coordenadas", cascade = CascadeType.ALL)
     private Incidencia incidencia;
@@ -21,25 +21,25 @@ public class Coordenadas {
 
     }
 
-    public Coordenadas(String latitud, String longitud) {
+    public Coordenadas(double latitud, double longitud) {
 	super();
 	this.latitud = latitud;
 	this.longitud = longitud;
     }
 
-    public String getLatitud() {
+    public double getLatitud() {
 	return latitud;
     }
 
-    public void setLatitud(String latitud) {
+    public void setLatitud(double latitud) {
 	this.latitud = latitud;
     }
 
-    public String getLongitud() {
+    public double getLongitud() {
 	return longitud;
     }
 
-    public void setLongitud(String longitud) {
+    public void setLongitud(double longitud) {
 	this.longitud = longitud;
     }
 
@@ -52,8 +52,12 @@ public class Coordenadas {
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + ((latitud == null) ? 0 : latitud.hashCode());
-	result = prime * result + ((longitud == null) ? 0 : longitud.hashCode());
+	result = prime * result + ((incidencia == null) ? 0 : incidencia.hashCode());
+	long temp;
+	temp = Double.doubleToLongBits(latitud);
+	result = prime * result + (int) (temp ^ (temp >>> 32));
+	temp = Double.doubleToLongBits(longitud);
+	result = prime * result + (int) (temp ^ (temp >>> 32));
 	return result;
     }
 
@@ -66,15 +70,14 @@ public class Coordenadas {
 	if (getClass() != obj.getClass())
 	    return false;
 	Coordenadas other = (Coordenadas) obj;
-	if (latitud == null) {
-	    if (other.latitud != null)
+	if (incidencia == null) {
+	    if (other.incidencia != null)
 		return false;
-	} else if (!latitud.equals(other.latitud))
+	} else if (!incidencia.equals(other.incidencia))
 	    return false;
-	if (longitud == null) {
-	    if (other.longitud != null)
-		return false;
-	} else if (!longitud.equals(other.longitud))
+	if (Double.doubleToLongBits(latitud) != Double.doubleToLongBits(other.latitud))
+	    return false;
+	if (Double.doubleToLongBits(longitud) != Double.doubleToLongBits(other.longitud))
 	    return false;
 	return true;
     }

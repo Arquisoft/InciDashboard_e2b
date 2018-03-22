@@ -24,8 +24,10 @@
 						<td th:text="${inci.nombreUsuario}"></td>
 						<td th:text="${inci.nombre}"></td>
 						<td th:text="${inci.descripcion}"></td>
-						<td
-							th:text="${inci.coordenadas.latitud} + ', ' + ${inci.coordenadas.longitud}"></td>
+						<td>
+							<a th:href="${'/user/showMap/' + inci.coordenadas.latitud + '/' + inci.coordenadas.longitud}"
+							th:text="${inci.coordenadas.latitud} + ', ' + ${inci.coordenadas.longitud}"></a>
+						</td>
 						<td th:text="${inci.estado}"></td>
 						<td th:text="${inci.comentario}"></td>
 						<td th:text="${inci.caducidad}"></td>

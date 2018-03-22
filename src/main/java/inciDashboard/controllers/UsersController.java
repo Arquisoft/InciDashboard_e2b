@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,5 +33,12 @@ public class UsersController {
 	model.addAttribute("incidenciasList",
 		incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName())));
 	return "user/listIncidencias";
+    }
+    
+    @RequestMapping("/user/showMap/{latitud}/{longitud}")
+    public String getMap(Model model, @PathVariable double latitud, @PathVariable double longitud) {
+	model.addAttribute("latitud", latitud);
+	model.addAttribute("longitud", longitud);
+	return "coordenadas/map";
     }
 }
