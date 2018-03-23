@@ -1,12 +1,16 @@
 package inciDashboard.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,10 +27,13 @@ public class Incidencia {
     @JoinColumn(name = "coordenadas_id")
     private Coordenadas coordenadas;
     private InciStatus estado;
-    private String comentario;
+    
+    @OneToMany(mappedBy = "incidencia", cascade = CascadeType.ALL)
+    private Set<Comentario> comentarios = new HashSet<Comentario>();
+    
     @Temporal(value = TemporalType.DATE)
     private Date caducidad;
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,7 +48,6 @@ public class Incidencia {
 	this.descripcion = descripcion;
 	this.coordenadas = coordenadas;
 	this.estado = InciStatus.ABIERTA;
-	this.comentario = "";
 	this.caducidad = null;
 	this.user = user;
     }
@@ -71,11 +77,11 @@ public class Incidencia {
     }
 
     public Coordenadas getCoordenadas() {
-        return coordenadas;
+	return coordenadas;
     }
 
     public void setCoordenadas(Coordenadas coordenadas) {
-        this.coordenadas = coordenadas;
+	this.coordenadas = coordenadas;
     }
 
     public Long getId() {
@@ -90,12 +96,12 @@ public class Incidencia {
 	this.estado = estado;
     }
 
-    public String getComentario() {
-	return comentario;
+    public Set<Comentario> getComentarios() {
+	return new HashSet<Comentario>(comentarios);
     }
 
-    public void setComentario(String comentario) {
-	this.comentario = comentario;
+    public void setComentarios(Set<Comentario> comentarios) {
+	this.comentarios = comentarios;
     }
 
     public Date getCaducidad() {
@@ -107,7 +113,7 @@ public class Incidencia {
     }
 
     public User getUser() {
-        return user;
+	return user;
     }
 
     @Override
@@ -144,7 +150,7 @@ public class Incidencia {
     @Override
     public String toString() {
 	return "Incidencia [id=" + id + ", nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", descripcion="
-		+ descripcion + ", coordenadas=" + coordenadas + ", estado=" + estado + ", comentario=" + comentario
+		+ descripcion + ", coordenadas=" + coordenadas + ", estado=" + estado + ", comentario=" + comentarios
 		+ ", caducidad=" + caducidad + "]";
     }
 

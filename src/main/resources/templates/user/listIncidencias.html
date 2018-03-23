@@ -7,7 +7,7 @@
 		<h1 th:text="Incidencias"></h1>
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableListIcidencias"
-				id="tableListIndicdencias">
+				id="tableListIncidencias">
 				<thead>
 					<tr>
 						<th th:text="Usuario"></th>
@@ -24,12 +24,13 @@
 						<td th:text="${inci.nombreUsuario}"></td>
 						<td th:text="${inci.nombre}"></td>
 						<td th:text="${inci.descripcion}"></td>
-						<td>
-							<a th:href="${'/user/showMap/' + inci.coordenadas.latitud + '/' + inci.coordenadas.longitud}"
+						<td><a
+							th:href="${'/user/showMap/' + inci.coordenadas.latitud + '/' + inci.coordenadas.longitud}"
 							th:text="${inci.coordenadas.latitud} + ', ' + ${inci.coordenadas.longitud}"></a>
 						</td>
 						<td th:text="${inci.estado}"></td>
-						<td th:text="${inci.comentario}"></td>
+						<td><a th:href="${'/user/listComments/' + inci.id }"
+							th:text="Comentarios"></a></td>
 						<td th:text="${inci.caducidad}"></td>
 					</tr>
 				</tbody>

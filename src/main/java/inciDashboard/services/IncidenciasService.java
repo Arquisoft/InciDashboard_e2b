@@ -25,8 +25,8 @@ public class IncidenciasService {
 	return incidenciasRepository.findOne(id);
     }
 
-    public void addIndicencia(Incidencia user) {
-	incidenciasRepository.save(user);
+    public void addIndicencia(Incidencia incidencia) {
+	incidenciasRepository.save(incidencia);
     }
 
     public void deleteIncidencia(Long id) {
@@ -36,4 +36,5 @@ public class IncidenciasService {
     public List<Incidencia> getIncidenciasByUser(User user){
 	return incidenciasRepository.findAllByUser(user);
     }
+
 }
