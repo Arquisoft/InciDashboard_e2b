@@ -1,5 +1,7 @@
 package inciDashboard.services;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +42,8 @@ public class InsertSampleDataService {
 	coordenadasService.addCoordenadas(coord2);
 
 	Incidencia inci1 = new Incidencia("Sandra", "Incidencia en el bosque", "Temperaturas por encima de 40 grados",
-		coord1, user1);
-	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, user2);
+		coord1, new Date(), user1);
+	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2);
 
 	incidenciasService.addIndicencia(inci1);
 	incidenciasService.addIndicencia(inci2);

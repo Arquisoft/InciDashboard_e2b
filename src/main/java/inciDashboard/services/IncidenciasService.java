@@ -42,6 +42,4 @@ public class IncidenciasService {
 	incidenciasRepository.setStatus(estado, idIncidencia);
     }
     
-    
-
 }

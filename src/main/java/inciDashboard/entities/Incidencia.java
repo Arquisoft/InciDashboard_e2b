@@ -41,14 +41,14 @@ public class Incidencia {
     public Incidencia() {
     }
 
-    public Incidencia(String nombreUsuario, String nombre, String descripcion, Coordenadas coordenadas, User user) {
+    public Incidencia(String nombreUsuario, String nombre, String descripcion, Coordenadas coordenadas, Date caducidad, User user) {
 	super();
 	this.nombreUsuario = nombreUsuario;
 	this.nombre = nombre;
 	this.descripcion = descripcion;
 	this.coordenadas = coordenadas;
 	this.estado = InciStatus.ABIERTA;
-	this.caducidad = null;
+	this.caducidad = caducidad;
 	this.user = user;
     }
 

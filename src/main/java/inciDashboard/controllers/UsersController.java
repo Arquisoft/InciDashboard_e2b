@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import inciDashboard.entities.Comentario;
 import inciDashboard.entities.InciStatus;
+import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
 import inciDashboard.services.CommentsService;
 import inciDashboard.services.IncidenciasService;
@@ -91,8 +92,10 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/user/changeStatus/{idIncidencia}", method = RequestMethod.POST)
-    public String getStatus(@PathVariable Long idIncidencia) {
-	incidenciasService.updateStatus(InciStatus.ANULADA, idIncidencia);
+    public String getStatus(@PathVariable Long idIncidencia, InciStatus estado) {
+	Incidencia original = incidenciasService.getIncidencia(idIncidencia);
+	original.setEstado(estado);
+	incidenciasService.addIndicencia(original);
 	return "redirect:/user/listIncidencias";
     }
 }
