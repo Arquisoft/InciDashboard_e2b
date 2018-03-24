@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
 import inciDashboard.repositories.IncidenciasRepository;
@@ -36,5 +37,11 @@ public class IncidenciasService {
     public List<Incidencia> getIncidenciasByUser(User user){
 	return incidenciasRepository.findAllByUser(user);
     }
+
+    public void updateStatus(Enum<InciStatus> estado, Long idIncidencia) {
+	incidenciasRepository.setStatus(estado, idIncidencia);
+    }
+    
+    
 
 }

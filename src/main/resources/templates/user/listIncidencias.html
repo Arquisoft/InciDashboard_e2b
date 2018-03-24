@@ -14,7 +14,12 @@
 						<th th:text="Nombre"></th>
 						<th th:text="Descripcion"></th>
 						<th th:text="Coordenadas"></th>
-						<th th:text="Estado"></th>
+						<th th:rowspan="2" >
+							<td th:text="Estado">
+							</td>
+							<td>
+							</td>
+						</th>
 						<th th:text="Comentarios"></th>
 						<th th:text="Caducidad"></th>
 					</tr>
@@ -28,9 +33,14 @@
 							th:href="${'/user/showMap/' + inci.coordenadas.latitud + '/' + inci.coordenadas.longitud}"
 							th:text="${inci.coordenadas.latitud} + ', ' + ${inci.coordenadas.longitud}"></a>
 						</td>
+						<td>
 						<td th:text="${inci.estado}"></td>
+						<td><a th:href="${'/user/changeStatus/' + inci.id}"
+							th:text="'Cambiar estado'"></a></td>
+
+						</td>
 						<td><a th:href="${'/user/listComments/' + inci.id }"
-							th:text="Comentarios"></a></td>
+							th:text="'Ver/añadir comentarios'"></a></td>
 						<td th:text="${inci.caducidad}"></td>
 					</tr>
 				</tbody>

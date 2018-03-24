@@ -1,6 +1,8 @@
 package inciDashboard.controllers;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import inciDashboard.entities.Comentario;
+import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.User;
 import inciDashboard.services.CommentsService;
 import inciDashboard.services.IncidenciasService;
@@ -39,6 +42,7 @@ public class UsersController {
     public String getListadoIncidencias(Model model, Principal principal) {
 	model.addAttribute("incidenciasList",
 		incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName())));
+
 	return "user/listIncidencias";
     }
 
@@ -56,14 +60,14 @@ public class UsersController {
 	model.addAttribute("longitud", longitud);
 	return "coordenadas/map";
     }
-    
+
     @RequestMapping(value = "/user/addComment/{idIncidencia}", method = RequestMethod.POST)
     public String addComment(Model model, @ModelAttribute Comentario comentario, @PathVariable Long idIncidencia) {
 	commentsService
 		.addComentario(new Comentario(comentario.getTexto(), incidenciasService.getIncidencia(idIncidencia)));
 	return "redirect:/user/listComments/{idIncidencia}";
     }
-    
+
     @RequestMapping(value = "/user/addComment/{idIncidencia}")
     public String getPublication(Model model, @PathVariable Long idIncidencia) {
 	model.addAttribute("idIncidencia", idIncidencia);
@@ -71,6 +75,24 @@ public class UsersController {
 	model.addAttribute("commentsList", commentsService.getComentarios());
 	return "user/addComment";
     }
-    
-    
+
+    @RequestMapping(value = "/user/changeStatus/{idIncidencia}")
+    public String setStatus(Model model, @PathVariable Long idIncidencia) {
+	model.addAttribute("idIncidencia", idIncidencia);
+
+	Map<String, String> estados = new HashMap<String, String>();
+	estados.put("Abierta", InciStatus.ABIERTA.name());
+	estados.put("Cerrada", InciStatus.CERRADA.name());
+	estados.put("Anulada", InciStatus.ANULADA.name());
+
+	model.addAttribute("estadosList", estados.values());
+
+	return "user/changeStatus";
+    }
+
+    @RequestMapping(value = "/user/changeStatus/{idIncidencia}", method = RequestMethod.POST)
+    public String getStatus(@PathVariable Long idIncidencia) {
+	incidenciasService.updateStatus(InciStatus.ANULADA, idIncidencia);
+	return "redirect:/user/listIncidencias";
+    }
 }
