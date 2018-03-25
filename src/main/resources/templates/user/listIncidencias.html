@@ -14,6 +14,7 @@
 						<th th:text="Nombre"></th>
 						<th th:text="Descripcion"></th>
 						<th th:text="Coordenadas"></th>
+						<th th:text="Etiquetas"></th>
 						<th th:rowspan="2" >
 							<td th:text="Estado">
 							</td>
@@ -33,6 +34,8 @@
 							th:href="${'/user/showMap/' + inci.coordenadas.latitud + '/' + inci.coordenadas.longitud}"
 							th:text="${inci.coordenadas.latitud} + ', ' + ${inci.coordenadas.longitud}"></a>
 						</td>
+						<td th:text="${inci.listEtiquetas()}"></td>
+						
 						<td>
 						<td th:text="${inci.estado}"></td>
 						<td><a th:href="${'/user/changeStatus/' + inci.id}"

@@ -179,6 +179,13 @@ public class Incidencia {
 	public List<String> getEtiquetas() {
 		return etiquetas;
 	}
+	
+	public String listEtiquetas() {
+		String lista = "";
+		for(String tag : etiquetas)
+			lista = lista.concat(tag +",");
+		return (lista!="") ? lista.substring(0, lista.length()-1) : lista;
+	}
 
 	@Override
 	public int hashCode() {
