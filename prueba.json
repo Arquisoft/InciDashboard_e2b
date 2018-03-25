@@ -14,6 +14,22 @@
          "texto":"Hemos llamado a la policia hace media hora y no han llegado todavia"
       }
    ],
+   "campos":[
+   	  {
+   		"temp":"45"
+   	   },
+   	   {
+   		"wspeed":"20"
+   	   }
+   ],
+   "etiquetas":[
+   	  {
+   	  	"texto":"Incendio"
+   	  },
+   	  {
+   	  	"texto":"bosque"
+   	  }
+   ],
    "estado":"ABIERTA",
    "fecha":"11-6-2017"
 }
