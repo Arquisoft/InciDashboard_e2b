@@ -1,15 +1,22 @@
 package inciDashboard.entities;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -34,9 +41,15 @@ public class Incidencia {
     @Temporal(value = TemporalType.DATE)
     private Date caducidad;
     
-    @OneToMany(mappedBy = "incidencia", cascade = CascadeType.ALL)
-    private Set<Campo> campos = new HashSet<Campo>(); //Resto de valores que pueden variar dependiendo de la incidencia
-
+//    @OneToMany(mappedBy = "incidencia", cascade = CascadeType.ALL)
+//    private Set<Campo> campos = new HashSet<Campo>(); //Resto de valores que pueden variar dependiendo de la incidencia
+    
+    @ElementCollection(fetch=FetchType.EAGER)
+    @CollectionTable(name = "CAMPOS")
+    @MapKeyColumn(name = "KEY")
+    @Column(name = "VALUE")
+    private Map<String,String> campos = new HashMap<String, String>(); //Resto de valores que pueden variar dependiendo de la incidencia
+    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -126,6 +139,10 @@ public class Incidencia {
 	result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 	result = prime * result + ((nombreUsuario == null) ? 0 : nombreUsuario.hashCode());
 	return result;
+    }
+    
+    public void addCampo(String key, String value) {
+    	campos.put(key, value);
     }
 
     @Override

@@ -44,7 +44,11 @@ public class InsertSampleDataService {
 	Incidencia inci1 = new Incidencia("Sandra", "Incidencia en el bosque", "Temperaturas por encima de 40 grados",
 		coord1, new Date(), user1);
 	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2);
-
+	
+	inci1.addCampo("temp", "15");
+	inci1.addCampo("velocidad del viento", "20");
+	inci2.addCampo("temp", "-8");
+	
 	incidenciasService.addIndicencia(inci1);
 	incidenciasService.addIndicencia(inci2);
 
