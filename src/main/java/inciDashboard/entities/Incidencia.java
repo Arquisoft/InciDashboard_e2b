@@ -6,21 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 public class Incidencia {
@@ -52,19 +38,47 @@ public class Incidencia {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private boolean danger = false;
+
     public Incidencia() {
     }
 
     public Incidencia(String nombreUsuario, String nombre, String descripcion, Coordenadas coordenadas, Date caducidad, User user, Map<String, String> campos) {
-	super();
-	this.nombreUsuario = nombreUsuario;
-	this.nombre = nombre;
-	this.descripcion = descripcion;
-	this.coordenadas = coordenadas;
-	this.estado = InciStatus.ABIERTA;
-	this.caducidad = caducidad;
-	this.user = user;
-	this.campos = campos;
+	    super();
+        this.nombreUsuario = nombreUsuario;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.coordenadas = coordenadas;
+        this.estado = InciStatus.ABIERTA;
+        this.caducidad = caducidad;
+        this.user = user;
+        this.campos = campos;
+        checkDangerousness();
+    }
+
+    private void checkDangerousness() {
+        for (Map.Entry<String, String> entry : campos.entrySet()) {
+            if (entry.getKey().equals("temp")) {
+                int temp = Integer.valueOf(entry.getValue()); {
+                    if (temp > 40 || temp < 1) {
+                        danger = true;
+                        break;
+                    }
+                }
+            }
+            else if (entry.getKey().equals("wspeed")) {
+                int speed = Integer.valueOf(entry.getValue()); {
+                    if (speed > 60 || speed < 5) {
+                        danger = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean isDanger() {
+        return danger;
     }
 
     public String getNombreUsuario() {

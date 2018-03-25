@@ -44,21 +44,26 @@ public class InsertSampleDataService {
 	coordenadasService.addCoordenadas(coord2);
 	
 	Map<String, String> campos1 = new HashMap<String, String>();
-	campos1.put("temp", "15");
-	campos1.put("velocidad del viento", "20");
+	campos1.put("temp", "50");
+	campos1.put("wspeed", "20");
 	Map<String, String> campos2 = new HashMap<String, String>();
 	campos2.put("temp", "-8");
+	Map<String, String> campos3 = new HashMap<String, String>();
+	campos3.put("temp", "22");
+	campos3.put("wspeed", "24");
 	
 	
 
 	Incidencia inci1 = new Incidencia("Sandra", "Incidencia en el bosque", "Temperaturas por encima de 40 grados",
 		coord1, new Date(), user1, campos1);
 	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2, campos2);
+	Incidencia inci3 = new Incidencia("Sandra", "Incidencia en el bosque oeste", "Tronco caído", coord1, new Date(), user1, campos3);
 	
 	
 	
 	incidenciasService.addIndicencia(inci1);
 	incidenciasService.addIndicencia(inci2);
+	incidenciasService.addIndicencia(inci3);
 
 	Comentario c1 = new Comentario("Huele a quemado", inci1);
 	Comentario c2 = new Comentario("Veo humo", inci1);

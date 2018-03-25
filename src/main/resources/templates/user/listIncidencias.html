@@ -42,6 +42,7 @@
 						<td><a th:href="${'/user/listComments/' + inci.id }"
 							th:text="'Ver/añadir comentarios'"></a></td>
 						<td th:text="${inci.caducidad}"></td>
+						<td><button th:if="${inci.danger} == true" class="btn btn-danger">Peligro</button></td>
 					</tr>
 				</tbody>
 			</table>

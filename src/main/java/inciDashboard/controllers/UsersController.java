@@ -47,8 +47,8 @@ public class UsersController {
 
 	@RequestMapping("/user/listIncidencias")
 	public String getListadoIncidencias(Model model, Principal principal) {
-		model.addAttribute("incidenciasList",
-				incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName())));
+		List<Incidencia> incidencias = incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName()));
+		model.addAttribute("incidenciasList",	incidencias);
 
 		return "user/listIncidencias";
 	}
