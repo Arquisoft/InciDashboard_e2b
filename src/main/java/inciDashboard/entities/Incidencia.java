@@ -33,6 +33,9 @@ public class Incidencia {
     
     @Temporal(value = TemporalType.DATE)
     private Date caducidad;
+    
+    @OneToMany(mappedBy = "incidencia", cascade = CascadeType.ALL)
+    private Set<Campo> campos = new HashSet<Campo>(); //Resto de valores que pueden variar dependiendo de la incidencia
 
     @ManyToOne
     @JoinColumn(name = "user_id")
