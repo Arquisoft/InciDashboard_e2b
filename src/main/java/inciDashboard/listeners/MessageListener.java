@@ -27,7 +27,7 @@ public class MessageListener {
     	System.out.println(data);
 
 		SseEventBuilder event = SseEmitter.event().name("nuevaIncidencia").data(data);
-		synchronized (this.userController.emitters) {
+		synchronized (userController.emitters) {
 			for (SseEmitter sseEmitter : this.userController.emitters) {
 				try {
 					sseEmitter.send(event);
