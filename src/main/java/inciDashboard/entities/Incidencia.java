@@ -169,9 +169,12 @@ public class Incidencia {
 
     @Override
     public String toString() {
-	return "Incidencia [id=" + id + ", nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", descripcion="
-		+ descripcion + ", coordenadas=" + coordenadas + ", estado=" + estado + ", comentario=" + comentarios
-		+ ", caducidad=" + caducidad + "]";
+    	String toString = "Incidencia [id=" + id + ", nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", descripcion="
+    			+ descripcion + ", latitud =" + coordenadas.getLatitud() + ", longitud =" + coordenadas.getLongitud() + ", estado=" + estado.toString() 
+    			+ ", caducidad=" + caducidad.toString();
+    	for(Comentario c: comentarios)
+    		toString += ", comentario=" + c.getTexto();
+    	return toString + " ]";
     }
 
 }
