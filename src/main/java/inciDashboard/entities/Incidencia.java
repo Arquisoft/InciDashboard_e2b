@@ -41,8 +41,6 @@ public class Incidencia {
     @Temporal(value = TemporalType.DATE)
     private Date caducidad;
     
-//    @OneToMany(mappedBy = "incidencia", cascade = CascadeType.ALL)
-//    private Set<Campo> campos = new HashSet<Campo>(); //Resto de valores que pueden variar dependiendo de la incidencia
     
     @ElementCollection(fetch=FetchType.EAGER)
     @CollectionTable(name = "CAMPOS")
@@ -57,7 +55,7 @@ public class Incidencia {
     public Incidencia() {
     }
 
-    public Incidencia(String nombreUsuario, String nombre, String descripcion, Coordenadas coordenadas, Date caducidad, User user) {
+    public Incidencia(String nombreUsuario, String nombre, String descripcion, Coordenadas coordenadas, Date caducidad, User user, Map<String, String> campos) {
 	super();
 	this.nombreUsuario = nombreUsuario;
 	this.nombre = nombre;
@@ -66,6 +64,7 @@ public class Incidencia {
 	this.estado = InciStatus.ABIERTA;
 	this.caducidad = caducidad;
 	this.user = user;
+	this.campos = campos;
     }
 
     public String getNombreUsuario() {
@@ -131,18 +130,22 @@ public class Incidencia {
     public User getUser() {
 	return user;
     }
+    
+    public Map<String, String> getCampos() {
+		return new HashMap<String, String>(campos);
+	}
 
-    @Override
+	public void setCampos(Map<String, String> campos) {
+		this.campos = campos;
+	}
+
+	@Override
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
 	result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
 	result = prime * result + ((nombreUsuario == null) ? 0 : nombreUsuario.hashCode());
 	return result;
-    }
-    
-    public void addCampo(String key, String value) {
-    	campos.put(key, value);
     }
 
     @Override
