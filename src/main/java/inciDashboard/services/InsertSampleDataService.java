@@ -1,6 +1,8 @@
 package inciDashboard.services;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -40,14 +42,20 @@ public class InsertSampleDataService {
 	Coordenadas coord2 = new Coordenadas(43.3579649, -5.8733862);
 	coordenadasService.addCoordenadas(coord1);
 	coordenadasService.addCoordenadas(coord2);
+	
+	Map<String, String> campos1 = new HashMap<String, String>();
+	campos1.put("temp", "15");
+	campos1.put("velocidad del viento", "20");
+	Map<String, String> campos2 = new HashMap<String, String>();
+	campos2.put("temp", "-8");
+	
+	
 
 	Incidencia inci1 = new Incidencia("Sandra", "Incidencia en el bosque", "Temperaturas por encima de 40 grados",
-		coord1, new Date(), user1);
-	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2);
+		coord1, new Date(), user1, campos1);
+	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2, campos2);
 	
-	inci1.addCampo("temp", "15");
-	inci1.addCampo("velocidad del viento", "20");
-	inci2.addCampo("temp", "-8");
+	
 	
 	incidenciasService.addIndicencia(inci1);
 	incidenciasService.addIndicencia(inci2);

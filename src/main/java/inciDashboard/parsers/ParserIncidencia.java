@@ -4,24 +4,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import inciDashboard.entities.Comentario;
 import inciDashboard.entities.Coordenadas;
 import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
-import inciDashboard.services.CommentsService;
-import inciDashboard.services.CoordenadasService;
-import inciDashboard.services.IncidenciasService;
-import inciDashboard.services.UsersService;
 
 public class ParserIncidencia {
 	
@@ -39,6 +36,7 @@ public class ParserIncidencia {
 		JSONObject coordenadas = obj.getJSONObject("coordenadas");
 		JSONObject user = obj.getJSONObject("user");
 		JSONArray comentarios = obj.getJSONArray("comentarios");
+		JSONArray campos = obj.getJSONArray("campos");
 		
 		String nombre = obj.getString("nombre");
 		String nombreUsuario = obj.getString("nombreUsuario");
@@ -52,10 +50,17 @@ public class ParserIncidencia {
 		}
 		InciStatus estado = getEstado(obj.getString("estado"));
 		Date caducidad = formatter.parse(obj.getString("fecha"));
+		Map<String,String> mapCampos = new HashMap<String, String>();
+		
+		for(int i =0; i < campos.length(); i++) {
+			JSONObject texto = campos.getJSONObject(i);
+			String key = (String) texto.keys().next();
+			mapCampos.put(key, texto.getString(key));
+		}
 		User usuario = new User(user.getString("name"), user.getString("email"));
 		String pass = user.getString("password");
 		usuario.setPassword(pass);
-		Incidencia incidencia = new Incidencia(nombreUsuario, nombre, descripcion, cords, caducidad, usuario);
+		Incidencia incidencia = new Incidencia(nombreUsuario, nombre, descripcion, cords, caducidad, usuario, mapCampos);
 		incidencia.setEstado(estado);
 		incidencia.setComentarios(setComentarios);
 		for(Comentario c : setComentarios)
@@ -65,8 +70,8 @@ public class ParserIncidencia {
 	
 	/**
 	 * 
-	 * @param entrada - La incidencia en formato JSON
-	 * @return incidencia - El objeto incidencia
+	 * @param entrada - El objeto incidencia
+	 * @return salida - la incidencia en formateada como JSON 
 	 * @throws JSONException
 	 * @throws ParseException
 	 */
@@ -85,9 +90,21 @@ public class ParserIncidencia {
 			comentarios[i] = new JSONObject();
 			comentarios[i].put("texto", comens.get(i).getTexto());
 		}
+		
+		Map<String, String> mapCampos = entrada.getCampos();
+		JSONObject[] campos = new JSONObject[mapCampos.size()];
+		int i = 0;
+		for(Map.Entry<String, String> campo : mapCampos.entrySet()) {
+			campos[i] = new JSONObject();
+			campos[i].put(campo.getKey(), campo.getValue());
+			i++;
+		}
+		
 		obj.put("comentarios", comentarios);
 		obj.put("estado", entrada.getEstado().toString());
 		obj.put("fecha", formatter.format(entrada.getCaducidad().getTime()));
+		obj.put("campos", campos);
+		
 		JSONObject usuario = new JSONObject();
 		usuario.put("name", entrada.getUser().getName());
 		usuario.put("email", entrada.getUser().getEmail());
@@ -116,9 +133,13 @@ public class ParserIncidencia {
 				+ "\"descripcion\":\"Se ha provocado un incendio en el monte Naranco\","
 				+ "\"coordenadas\":{ \"X\":\"-5.866667\",\"Y\":\"43.383333\"},"
 				+ "\"comentarios\":[ "
-				+ "{ \"texto\":\"He llegado y he visto un humo detrás de unos arbustos, no pensaba que sería un incendio\"}, "
-				+ "{ \"texto\":\"Hemos llamado a la policia hace media hora y no han llegado todavia\"} ],"
-				+ "\"estado\":\"ABIERTA\", \"fecha\":\"11-06-2017\","
+					+ "{ \"texto\":\"He llegado y he visto un humo detrás de unos arbustos, no pensaba que sería un incendio\"}, "
+					+ "{ \"texto\":\"Hemos llamado a la policia hace media hora y no han llegado todavia\"} ],"
+				+ "\"estado\":\"ABIERTA\", "
+				+ "\"fecha\":\"11-06-2017\","
+				+ "\"campos\":[ "
+					+ "{ \"temp\":\"42\"}, "
+					+ "{ \"velocidad viento\":\"10\"} ],"
 				+ "\"user\":{ \"name\":\"Raul\",\"email\":\"raul@gmail.com\",\"password\":\"nfdas923nljd\"}}";
 		Incidencia inci = parseStringIncidencia(valido);
 		System.out.println(inci.toString());
