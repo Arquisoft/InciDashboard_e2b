@@ -51,7 +51,7 @@
 	<script th:inline="javascript">
   	  /*<![CDATA[*/
 	  	var source = new EventSource("/emitter");
-	  	evtSource.onmessage = function(e) {
+	  	source.onmessage = function(e) {
 	  		var incidencia = JSON.parse(e.data);
 	  		$("#tableListIncidencias").find('tbody').append( "<tr><td>" + incidencia.nombreUsuario + "</td><td>" + incidencia.nombre + "</td><td>" 
 	  				+ incidencia.descripcion + "</td><td>" + incidencia.coordenadas.latitud + "</td><td>" + incidencia.coordenadas.longitud + "</td><td><td>" 

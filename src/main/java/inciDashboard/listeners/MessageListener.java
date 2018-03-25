@@ -2,6 +2,7 @@ package inciDashboard.listeners;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
@@ -27,13 +28,12 @@ public class MessageListener {
     	System.out.println(data);
 
 		SseEventBuilder event = SseEmitter.event().name("nuevaIncidencia").data(data);
-		synchronized (userController.emitters) {
-			for (SseEmitter sseEmitter : this.userController.emitters) {
-				try {
-					sseEmitter.send(event);
-				} catch (IOException e) {
-					sseEmitter = new SseEmitter(Long.MAX_VALUE);
-				}
+		System.out.println(data);
+		for (SseEmitter emitter : userController.emitters) {
+			try {
+				emitter.send(data, MediaType.APPLICATION_JSON);
+			} catch (IOException e) {
+				emitter.complete();
 			}
 		}
 
