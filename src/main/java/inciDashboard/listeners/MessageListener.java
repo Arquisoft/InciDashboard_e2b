@@ -3,8 +3,13 @@ package inciDashboard.listeners;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 import inciDashboard.controllers.MainController;
+import inciDashboard.controllers.UsersController;
+
+import java.io.IOException;
 
 import javax.annotation.ManagedBean;
 
@@ -14,11 +19,24 @@ import javax.annotation.ManagedBean;
 @ManagedBean
 public class MessageListener {
 
-    private static final Logger logger = Logger.getLogger(MessageListener.class);
+    @Autowired
+    private UsersController userController;
 
-    @KafkaListener(topics = "exampleTopic")
+    @KafkaListener(topics = "incidencia")
     public void listen(String data) {
-	logger.info("New message received: \"" + data + "\"");
-    }
+    	System.out.println(data);
+
+		SseEventBuilder event = SseEmitter.event().name("nuevaIncidencia").data(data);
+		synchronized (this.userController.emitters) {
+			for (SseEmitter sseEmitter : this.userController.emitters) {
+				try {
+					sseEmitter.send(event);
+				} catch (IOException e) {
+					sseEmitter = new SseEmitter(Long.MAX_VALUE);
+				}
+			}
+		}
+
+	}
 
 }

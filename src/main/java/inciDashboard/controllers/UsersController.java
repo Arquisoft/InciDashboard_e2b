@@ -1,7 +1,10 @@
 package inciDashboard.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import inciDashboard.entities.Comentario;
 import inciDashboard.entities.InciStatus;
@@ -32,6 +36,8 @@ public class UsersController {
 
     @Autowired
     private UsersService usersService;
+
+    public List<SseEmitter> emitters = Collections.synchronizedList(new ArrayList<SseEmitter>());
 
     @RequestMapping("/user")
     @ResponseBody
