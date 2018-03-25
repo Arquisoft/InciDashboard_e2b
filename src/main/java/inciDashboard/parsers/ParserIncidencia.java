@@ -1,35 +1,128 @@
 package inciDashboard.parsers;
 
-import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import inciDashboard.entities.Comentario;
+import inciDashboard.entities.Coordenadas;
+import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
+import inciDashboard.entities.User;
+import inciDashboard.services.CommentsService;
+import inciDashboard.services.CoordenadasService;
+import inciDashboard.services.IncidenciasService;
+import inciDashboard.services.UsersService;
 
-public class ParserIncidencia extends JsonDeserializer<Incidencia> {
-	@Override
-	public Incidencia deserialize(JsonParser parser, DeserializationContext context)
-			throws IOException, JsonProcessingException {
-		ObjectCodec objectCodec = parser.getCodec();
-		JsonNode jsonNode = objectCodec.readTree(parser);
-
-		String name = jsonNode.get("nombre").asText();
-		return null;
+public class ParserIncidencia {
+	
+	public static SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	
+	/**
+	 * 
+	 * @param entrada - La incidencia en formato JSON
+	 * @return incidencia - El objeto incidencia
+	 * @throws JSONException
+	 * @throws ParseException
+	 */
+	public static Incidencia parseStringIncidencia(String entrada) throws JSONException, ParseException {		
+		JSONObject obj = new JSONObject(entrada);
+		JSONObject coordenadas = obj.getJSONObject("coordenadas");
+		JSONObject user = obj.getJSONObject("user");
+		JSONArray comentarios = obj.getJSONArray("comentarios");
+		
+		String nombre = obj.getString("nombre");
+		String nombreUsuario = obj.getString("nombreUsuario");
+		String descripcion = obj.getString("descripcion");
+		Coordenadas cords = new Coordenadas(coordenadas.getDouble("Y"), coordenadas.getDouble("X"));
+		Set<Comentario> setComentarios = new HashSet<Comentario>();
+		for(int i = 0; i < comentarios.length(); i++) {
+			JSONObject texto = comentarios.getJSONObject(i);
+			Comentario com = new Comentario(texto.getString("texto"));
+			setComentarios.add(com);
+		}
+		InciStatus estado = getEstado(obj.getString("estado"));
+		Date caducidad = formatter.parse(obj.getString("fecha"));
+		User usuario = new User(user.getString("name"), user.getString("email"));
+		String pass = user.getString("password");
+		usuario.setPassword(pass);
+		Incidencia incidencia = new Incidencia(nombreUsuario, nombre, descripcion, cords, caducidad, usuario);
+		incidencia.setEstado(estado);
+		incidencia.setComentarios(setComentarios);
+		for(Comentario c : setComentarios)
+			c.setIncidencia(incidencia);
+	    return incidencia;	
 	}
 	
-	public static void main(String[] args) {
-		ParserIncidencia p = new ParserIncidencia();
-		p.deserialize(Incidencia.class, new Deserializer());
+	/**
+	 * 
+	 * @param entrada - La incidencia en formato JSON
+	 * @return incidencia - El objeto incidencia
+	 * @throws JSONException
+	 * @throws ParseException
+	 */
+	public static String parseIncidenciaString(Incidencia entrada) throws JSONException, ParseException {	
+		JSONObject obj = new JSONObject();
+		obj.put("nombreUsuario", entrada.getNombreUsuario());
+		obj.put("nombre", entrada.getNombre());
+		obj.put("descripcion", entrada.getDescripcion());
+		JSONObject coordenadas = new JSONObject();
+		coordenadas.put("X", entrada.getCoordenadas().getLongitud());
+		coordenadas.put("Y", entrada.getCoordenadas().getLatitud());
+		obj.put("coordenadas", coordenadas);
+		List<Comentario> comens = new ArrayList<Comentario>(entrada.getComentarios());
+		JSONObject[] comentarios = new JSONObject[comens.size()];
+		for(int i = 0; i<comens.size(); i++) {
+			comentarios[i] = new JSONObject();
+			comentarios[i].put("texto", comens.get(i).getTexto());
+		}
+		obj.put("comentarios", comentarios);
+		obj.put("estado", entrada.getEstado().toString());
+		obj.put("fecha", formatter.format(entrada.getCaducidad().getTime()));
+		JSONObject usuario = new JSONObject();
+		usuario.put("name", entrada.getUser().getName());
+		usuario.put("email", entrada.getUser().getEmail());
+		usuario.put("password", entrada.getUser().getPassword());
+		obj.put("user", usuario);
+		String salida = obj.toString();
+		return salida;
+	}
+	
+	public static InciStatus getEstado(String est) {
+		if(est.equals("ABIERTA")) 
+			return InciStatus.ABIERTA;
+		else if(est.equals("ENPROCESO")) 
+			return InciStatus.ENPROCESO;
+		else if(est.equals("CERRADA")) 
+			return InciStatus.ENPROCESO;
+		else if(est.equals("ANULADA")) 
+			return InciStatus.ENPROCESO;
+		else 
+			return null;
+	}
+	
+	public static void main(String[] args) throws JSONException, ParseException {
+		String valido = "{\"nombreUsuario\":\"Raul\", "
+				+ "\"nombre\":\"Incendio\", "
+				+ "\"descripcion\":\"Se ha provocado un incendio en el monte Naranco\","
+				+ "\"coordenadas\":{ \"X\":\"-5.866667\",\"Y\":\"43.383333\"},"
+				+ "\"comentarios\":[ "
+				+ "{ \"texto\":\"He llegado y he visto un humo detrás de unos arbustos, no pensaba que sería un incendio\"}, "
+				+ "{ \"texto\":\"Hemos llamado a la policia hace media hora y no han llegado todavia\"} ],"
+				+ "\"estado\":\"ABIERTA\", \"fecha\":\"11-06-2017\","
+				+ "\"user\":{ \"name\":\"Raul\",\"email\":\"raul@gmail.com\",\"password\":\"nfdas923nljd\"}}";
+		Incidencia inci = parseStringIncidencia(valido);
+		System.out.println(inci.toString());
+		System.out.println(parseIncidenciaString(inci));
 	}
 
 }

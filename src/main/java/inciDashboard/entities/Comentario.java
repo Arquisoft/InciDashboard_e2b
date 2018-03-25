@@ -20,14 +20,19 @@ public class Comentario {
     public Comentario() {
 
     }
+    
+    public Comentario(String texto) {
+    	super();
+		this.texto = texto;
+	}
 
     public Comentario(String texto, Incidencia incidencia) {
-	super();
-	this.texto = texto;
+	this(texto);
 	this.incidencia = incidencia;
     }
+    
 
-    public String getTexto() {
+	public String getTexto() {
 	return texto;
     }
 
