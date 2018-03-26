@@ -100,6 +100,7 @@ public class UsersController {
 		estados.put("Abierta", InciStatus.ABIERTA.name());
 		estados.put("Cerrada", InciStatus.CERRADA.name());
 		estados.put("Anulada", InciStatus.ANULADA.name());
+		estados.put("En proceso", InciStatus.ENPROCESO.name());
 
 		model.addAttribute("estadosList", estados.values());
 
