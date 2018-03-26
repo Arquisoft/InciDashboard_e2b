@@ -21,6 +21,7 @@ import inciDashboard.entities.Comentario;
 import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
+import inciDashboard.kafka.producers.KafkaProducer;
 import inciDashboard.services.CommentsService;
 import inciDashboard.services.IncidenciasService;
 import inciDashboard.services.UsersService;
@@ -36,6 +37,9 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
+	
+	@Autowired
+	private KafkaProducer kafka;
 
 	public List<SseEmitter> emitters = Collections.synchronizedList(new ArrayList<SseEmitter>());
 
@@ -102,6 +106,9 @@ public class UsersController {
 		Incidencia original = incidenciasService.getIncidencia(idIncidencia);
 		original.setEstado(estado);
 		incidenciasService.addIndicencia(original);
+		
+		kafka.updateStatus(String.valueOf(idIncidencia), estado.toString());
+		
 		return "redirect:/user/listIncidencias";
 	}
 	

@@ -1,4 +1,4 @@
-package inciDashboard.listeners;
+package inciDashboard.kafka.listeners;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEvent
 
 import inciDashboard.controllers.MainController;
 import inciDashboard.controllers.UsersController;
+import inciDashboard.kafka.producers.util.Topics;
 
 import java.io.IOException;
 
@@ -18,12 +19,12 @@ import javax.annotation.ManagedBean;
  * Created by herminio on 28/12/16.
  */
 @ManagedBean
-public class MessageListener {
+public class IncidenceListener {
 
     @Autowired
     private UsersController userController;
 
-    @KafkaListener(topics = "incidencia")
+    @KafkaListener(topics = Topics.NEW_INCIDENCE)
     public void listen(String data) {
     	System.out.println(data);
 

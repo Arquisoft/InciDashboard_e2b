@@ -183,7 +183,7 @@ public class Incidencia {
 	public String listEtiquetas() {
 		String lista = "";
 		for(String tag : etiquetas)
-			lista = lista.concat(tag +",");
+			lista = lista.concat(tag +", ");
 		return (lista!="") ? lista.substring(0, lista.length()-1) : lista;
 	}
 
