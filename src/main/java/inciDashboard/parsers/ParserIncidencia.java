@@ -37,30 +37,40 @@ public class ParserIncidencia {
 		JSONObject user = obj.getJSONObject("user");
 		JSONArray comentarios = obj.getJSONArray("comentarios");
 		JSONArray campos = obj.getJSONArray("campos");
+		JSONArray etiquetas = obj.getJSONArray("etiquetas");
 		
 		String nombre = obj.getString("nombre");
 		String nombreUsuario = obj.getString("nombreUsuario");
 		String descripcion = obj.getString("descripcion");
 		Coordenadas cords = new Coordenadas(coordenadas.getDouble("Y"), coordenadas.getDouble("X"));
+		
 		Set<Comentario> setComentarios = new HashSet<Comentario>();
 		for(int i = 0; i < comentarios.length(); i++) {
 			JSONObject texto = comentarios.getJSONObject(i);
 			Comentario com = new Comentario(texto.getString("texto"));
 			setComentarios.add(com);
 		}
+		
 		InciStatus estado = getEstado(obj.getString("estado"));
 		Date caducidad = formatter.parse(obj.getString("fecha"));
-		Map<String,String> mapCampos = new HashMap<String, String>();
 		
+		Map<String,String> mapCampos = new HashMap<String, String>();
 		for(int i =0; i < campos.length(); i++) {
 			JSONObject texto = campos.getJSONObject(i);
 			String key = (String) texto.keys().next();
 			mapCampos.put(key, texto.getString(key));
 		}
+		
+		List<String> listaEtiquetas = new ArrayList<String>(); 
+		for(int i = 0; i < etiquetas.length(); i++) {
+			JSONObject texto = etiquetas.getJSONObject(i);
+			listaEtiquetas.add(texto.getString("texto"));
+		}
+		
 		User usuario = new User(user.getString("name"), user.getString("email"));
 		String pass = user.getString("password");
 		usuario.setPassword(pass);
-		Incidencia incidencia = new Incidencia(nombreUsuario, nombre, descripcion, cords, caducidad, usuario, mapCampos);
+		Incidencia incidencia = new Incidencia(nombreUsuario, nombre, descripcion, cords, caducidad, usuario, mapCampos, listaEtiquetas);
 		incidencia.setEstado(estado);
 		incidencia.setComentarios(setComentarios);
 		for(Comentario c : setComentarios)
@@ -100,10 +110,18 @@ public class ParserIncidencia {
 			i++;
 		}
 		
+		List<String> listaEtiquetas = new ArrayList<String>(entrada.getEtiquetas());
+		JSONObject[] etiquetas = new JSONObject[listaEtiquetas.size()];
+		for(i = 0; i<listaEtiquetas.size(); i++) {
+			etiquetas[i] = new JSONObject();
+			etiquetas[i].put("texto", listaEtiquetas.get(i));
+		}
+		
 		obj.put("comentarios", comentarios);
 		obj.put("estado", entrada.getEstado().toString());
 		obj.put("fecha", formatter.format(entrada.getCaducidad().getTime()));
 		obj.put("campos", campos);
+		obj.put("etiquetas", etiquetas);
 		
 		JSONObject usuario = new JSONObject();
 		usuario.put("name", entrada.getUser().getName());
@@ -140,6 +158,9 @@ public class ParserIncidencia {
 				+ "\"campos\":[ "
 					+ "{ \"temp\":\"42\"}, "
 					+ "{ \"velocidad viento\":\"10\"} ],"
+				+ "\"etiquetas\":[ "
+					+ "{ \"texto\":\"Incendio\"}, "
+					+ "{ \"texto\":\"Bosque\"} ],"
 				+ "\"user\":{ \"name\":\"Raul\",\"email\":\"raul@gmail.com\",\"password\":\"nfdas923nljd\"}}";
 		Incidencia inci = parseStringIncidencia(valido);
 		System.out.println(inci.toString());

@@ -1,7 +1,9 @@
 package inciDashboard.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -52,14 +54,21 @@ public class InsertSampleDataService {
 	campos3.put("temp", "22");
 	campos3.put("wspeed", "24");
 	
-	
+	List<String> tags1 = new ArrayList<String>();
+	tags1.add("Temperatura Alta");
+	tags1.add("Bosque");
+	List<String> tags2 = new ArrayList<String>();
+	tags2.add("Río");
+	tags2.add("Desbordamiento");
+	List<String> tags3 = new ArrayList<String>();
+	tags3.add("Obstáculo");
+	tags3.add("Bosque");
 
 	Incidencia inci1 = new Incidencia("Sandra", "Incidencia en el bosque", "Temperaturas por encima de 40 grados",
-		coord1, new Date(), user1, campos1);
-	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2, campos2);
-	Incidencia inci3 = new Incidencia("Sandra", "Incidencia en el bosque oeste", "Tronco caído", coord1, new Date(), user1, campos3);
-	
-	
+		coord1, new Date(), user1, campos1, tags1);
+	Incidencia inci2 = new Incidencia("Juan", "Incidencia en el río", "Río desbordándose", coord2, new Date(), user2, campos2, tags2);
+	Incidencia inci3 = new Incidencia("Sandra", "Incidencia en el bosque oeste", "Tronco caído", coord1, new Date(), user1, campos3, tags3);
+		
 	
 	incidenciasService.addIndicencia(inci1);
 	incidenciasService.addIndicencia(inci2);

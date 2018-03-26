@@ -31,6 +31,10 @@
 						placeholder="Password" required="true" />
 				</div>
 			</div>
+			<label class="col-sm-10" >
+			<p th:if="${param.error}" class="text-danger" th:text="'Usuario o contraseña incorrectos'">    
+                   <p>
+                </label>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-primary">Entrar</button>
