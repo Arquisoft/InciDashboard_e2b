@@ -48,6 +48,11 @@ public class UsersController {
 	public User user() {
 		return new User("Pepe", "pepe@example.com");
 	}
+	
+	@RequestMapping("/login")
+	public String login(Model model) {
+		return "index";
+	}
 
 	@RequestMapping("/user/listIncidencias")
 	public String getListadoIncidencias(Model model, Principal principal) {
