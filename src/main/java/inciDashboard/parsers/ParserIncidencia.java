@@ -13,6 +13,7 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import inciDashboard.entities.Comentario;
 import inciDashboard.entities.Coordenadas;
@@ -20,6 +21,7 @@ import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
 
+@Component
 public class ParserIncidencia {
 	
 	public static SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

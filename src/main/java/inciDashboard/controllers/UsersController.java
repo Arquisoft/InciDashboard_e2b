@@ -21,6 +21,7 @@ import inciDashboard.entities.Comentario;
 import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
+import inciDashboard.kafka.ConcurrentIncidences;
 import inciDashboard.kafka.producers.KafkaProducer;
 import inciDashboard.services.CommentsService;
 import inciDashboard.services.IncidenciasService;
@@ -31,6 +32,9 @@ public class UsersController {
 
 	@Autowired
 	private IncidenciasService incidenciasService;
+	
+	@Autowired
+	private ConcurrentIncidences listaIncidenciasConcurrentes;
 
 	@Autowired
 	private CommentsService commentsService;
@@ -57,6 +61,11 @@ public class UsersController {
 	@RequestMapping("/user/listIncidencias")
 	public String getListadoIncidencias(Model model, Principal principal) {
 		List<Incidencia> incidencias = incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName()));
+		List<Incidencia> incidenciasConcurrentes = listaIncidenciasConcurrentes.getIncidenciasConcurrentes();
+		
+		if(!incidenciasConcurrentes.isEmpty()) {
+			incidencias.stream().forEach(incidenciasConcurrentes::add);
+		}
 		model.addAttribute("incidenciasList",	incidencias);
 
 		return "user/listIncidencias";
