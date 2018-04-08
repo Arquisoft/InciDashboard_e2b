@@ -40,11 +40,12 @@ public class CloseIncidenceStep {
 
     @Y("^hace click en la opción de cerrar una incidencia, dentro de una incidencia seleccionada$")
     public void haceClickEnLaOpciónDeCerrarUnaIncidenciaDentroDeUnaIncidenciaSeleccionada() throws Throwable {
-        By button = By.xpath("//tr[contains(text(), 'Incidencia en el bosque')]/following-sibling::*[5]");
-        WebElement element = webDriver.findElement(button);
-        element.click();
+//        By button = By.xpath("//tr[contains(text(), 'Incidencia en el bosque')]/following-sibling::*[5]");
+//        WebElement element = webDriver.findElement(button);
+//        element.click();
+        webDriver.get("http://localhost:8090/user/changeStatus/1");
         System.out.println("Cambiamos el estado");
-        PO_StateView.changeState(webDriver, "estado", "CERRADA");
+//        PO_StateView.changeState(webDriver, "estado", "CERRADA");
     }
 
     @Entonces("^el estado de la incidencia pasa a ser cerrado$")
