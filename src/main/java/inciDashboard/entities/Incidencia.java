@@ -75,29 +75,32 @@ public class Incidencia {
 		this.user = user;
 		this.campos = campos;
 		this.etiquetas = etiquetas;
-		checkDangerousness();
+		for (Map.Entry<String, String> entry : campos.entrySet()) {
+			checkDangerousness(entry.getKey(), entry.getValue());
+		}
 	}
 
-	private void checkDangerousness() {
-		for (Map.Entry<String, String> entry : campos.entrySet()) {
-			if (entry.getKey().equals("temp")) {
-				int temp = Integer.valueOf(entry.getValue());
-				{
-					if (temp > 40 || temp < 1) {
-						danger = true;
-						break;
-					}
+	private void checkDangerousness(String key, String value) {
+		if (key.equals("temp")) {
+			int temp = Integer.valueOf(value);
+			{
+				if (temp > 40 || temp < 1) {
+					danger = true;
 				}
-			} else if (entry.getKey().equals("wspeed")) {
-				int speed = Integer.valueOf(entry.getValue());
-				{
-					if (speed > 60 || speed < 5) {
-						danger = true;
-						break;
-					}
+			}
+		} else if (key.equals("wspeed")) {
+			int speed = Integer.valueOf(value);
+			{
+				if (speed > 60 || speed < 5) {
+					danger = true;
 				}
 			}
 		}
+	}
+
+	public void addCampo(String key, String value) {
+		this.campos.put(key, value);
+		checkDangerousness(key, value);
 	}
 
 	public boolean isDanger() {

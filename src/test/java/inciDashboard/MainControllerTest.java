@@ -2,9 +2,11 @@ package inciDashboard;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
+import inciDashboard.entities.Incidencia;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,7 @@ public class MainControllerTest {
 
     private URL base;
 	private RestTemplate template;
+	private Incidencia incidencia;
 
 	@Before
 	public void setUp() throws Exception {
@@ -51,6 +54,13 @@ public class MainControllerTest {
 		ResponseEntity<String> response = template.getForEntity(userURI, String.class);
 		User expected = new User("Pepe", "pepe@example.com");
 		expected.setPassword("123456");
+	}
+
+	@Test
+	public void addField() {
+		incidencia = new Incidencia();
+		incidencia.addCampo("temp", "60");
+		assertTrue(incidencia.isDanger());
 	}
 
 }

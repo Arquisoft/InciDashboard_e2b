@@ -1,12 +1,10 @@
 package steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.es.Cuando;
 import cucumber.api.java.es.Dado;
 import cucumber.api.java.es.Entonces;
 import cucumber.api.java.es.Y;
 import org.openqa.selenium.WebDriver;
-import sun.rmi.runtime.Log;
 import utils.Login;
 
 public class DangerousFilesStep {
