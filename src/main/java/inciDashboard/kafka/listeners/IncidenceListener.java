@@ -8,10 +8,10 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
+import inciDashboard.controllers.ConcurrentIncidencesController;
 import inciDashboard.controllers.MainController;
 import inciDashboard.controllers.UsersController;
 import inciDashboard.entities.Incidencia;
-import inciDashboard.kafka.ConcurrentIncidences;
 import inciDashboard.kafka.producers.util.Topics;
 import inciDashboard.parsers.ParserIncidencia;
 
@@ -29,7 +29,7 @@ public class IncidenceListener {
 	private static final Logger logger = Logger.getLogger(IncidenceListener.class);
 
     @Autowired
-    private ConcurrentIncidences incidenciasConcurrentes;
+    private ConcurrentIncidencesController incidenciasConcurrentes;
     
     @Autowired
     private ParserIncidencia parserJSON;
