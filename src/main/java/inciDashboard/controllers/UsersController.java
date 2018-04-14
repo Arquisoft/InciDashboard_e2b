@@ -21,7 +21,6 @@ import inciDashboard.entities.Comentario;
 import inciDashboard.entities.InciStatus;
 import inciDashboard.entities.Incidencia;
 import inciDashboard.entities.User;
-import inciDashboard.kafka.ConcurrentIncidences;
 import inciDashboard.kafka.producers.KafkaProducer;
 import inciDashboard.services.CommentsService;
 import inciDashboard.services.IncidenciasService;
@@ -34,7 +33,7 @@ public class UsersController {
 	private IncidenciasService incidenciasService;
 	
 	@Autowired
-	private ConcurrentIncidences listaIncidenciasConcurrentes;
+	private ConcurrentIncidencesController listaIncidenciasConcurrentes;
 
 	@Autowired
 	private CommentsService commentsService;
@@ -64,7 +63,7 @@ public class UsersController {
 		List<Incidencia> incidenciasConcurrentes = listaIncidenciasConcurrentes.getIncidenciasConcurrentes();
 		
 		if(!incidenciasConcurrentes.isEmpty()) {
-			incidencias.stream().forEach(incidenciasConcurrentes::add);
+			incidenciasConcurrentes.stream().forEach(incidencias::add);
 		}
 		model.addAttribute("incidenciasList",	incidencias);
 
