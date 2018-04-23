@@ -33,7 +33,7 @@ public class ConcurrentIncidencesController {
 	public String saveIncidence(Incidencia incidence) {
 		addIncidence(incidence);
 		this.incidenciasConcurrentes.add(incidence);
-		return "user/listIncidencias";
+		return "user/updateIncidencias";
 	}
 	
 	private void addIncidence(Incidencia incidence) {

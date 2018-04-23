@@ -51,6 +51,12 @@
 					</tr>
 				</tbody>
 			</table>
+			<script>
+				setInterval(function() {
+					var urlUpdate = '/user/updateIncidencias';
+					$("#tableListIncidencias").load(urlUpdate);
+				}, 2000);
+			</script>
 			<hr />
 		</div>
 	</div>

@@ -60,6 +60,14 @@ public class UsersController {
 	@RequestMapping("/user/listIncidencias")
 	public String getListadoIncidencias(Model model, Principal principal) {
 		List<Incidencia> incidencias = incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName()));
+		model.addAttribute("incidenciasList",	incidencias);
+
+		return "user/listIncidencias";
+	}
+	
+	@RequestMapping("/user/updateIncidencias")
+	public String update(Model model, Principal principal) {
+		List<Incidencia> incidencias = incidenciasService.getIncidenciasByUser(usersService.getUserByEmail(principal.getName()));
 		List<Incidencia> incidenciasConcurrentes = listaIncidenciasConcurrentes.getIncidenciasConcurrentes();
 		
 		if(!incidenciasConcurrentes.isEmpty()) {
@@ -67,7 +75,7 @@ public class UsersController {
 		}
 		model.addAttribute("incidenciasList",	incidencias);
 
-		return "user/listIncidencias";
+		return "user/listIncidencias  :: tableListIncidencias";
 	}
 
 	@RequestMapping("/user/listComments/{idIncidencia}")
