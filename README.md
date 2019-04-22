@@ -1,5 +1,6 @@
 # InciDashboard_e2b
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/be1e4537b5f94836a0985bf6406803a2)](https://app.codacy.com/app/pabloHeviaV/InciDashboard_e2b?utm_source=github.com&utm_medium=referral&utm_content=Arquisoft/InciDashboard_e2b&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/Arquisoft/InciDashboard_e2b.svg?branch=master)](https://travis-ci.org/Arquisoft/InciDashboard_e2b)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30f2b7db3914494eb346f3039a466f5a)](https://www.codacy.com/app/pabloHeviaV/InciDashboard_e2b?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Arquisoft/InciDashboard_e2b&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/Arquisoft/InciDashboard_e2b/branch/master/graph/badge.svg)](https://codecov.io/gh/Arquisoft/InciDashboard_e2b)
